@@ -17,7 +17,7 @@ coretempstat = int(os.popen("kldstat|grep coretemp|wc -l").read())
 
 # Check if above binary really exists
 if coretempstat == 0:
-	print "coretemp kernel module not loaded. Exiting..."
+	print ("coretemp kernel module not loaded. Exiting...")
 	raise SystemExit(3) 
 
 # Parse arguments
@@ -35,7 +35,7 @@ if (warn == None or crit == None or core == None):
 	parser.print_help()
 	raise SystemExit()
 if (crit <= warn):
-	print "Critical temperature can't be less or equal to warning temperature"
+	print ("Critical temperature can't be less or equal to warning temperature")
 	parser.print_help()
 	raise SystemExit()
 
@@ -43,16 +43,16 @@ if (crit <= warn):
 try:
 	sensor = int(os.popen("sysctl -a | grep temperature | grep '\." + str(core) + "\.' | awk '{print $2}'|awk -F. '{print $1}'").read())
 except:
-	print "Error reading CPU temperature"
+	print ("Error reading CPU temperature")
 	raise SystemExit(3)
 
 # Print status    
 if (sensor < warn):
- print "OK: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+ print ("OK: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5))
  raise SystemExit(0)
 elif (sensor >= warn and sensor < crit):
- print "WARNING: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+ print ("WARNING: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5))
  raise SystemExit(1)
 else:
- print "CRITICAL: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5)
+ print ("CRITICAL: Temperature: " + str(sensor) + " C|Temperature=" + str(sensor) + ";" + str(warn) + ";" + str(crit) + ";" + str(warn-5) + ";" + str(crit+5))
  raise SystemExit(2)
